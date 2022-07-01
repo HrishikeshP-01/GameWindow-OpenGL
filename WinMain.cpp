@@ -1,3 +1,4 @@
+// Reduces amt of code brought in by including <Windows.h>
 #define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
@@ -7,10 +8,17 @@
 #include <iostream>
 #include "Application.h"
 
+// Window entry fn & window event processing fn need to be fwd declared
+/*Fwd declaration is the beforehand declaration of syntax or signature
+of identifier, variable or fn*/
 int WINAPI WinMain(HINSTANCE, HINSTANCE, PSTR, int);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 #if _DEBUG
+/* Pragma comment is a compiler directive to leave a comment in the
+generated object file. This is then read by linker when object files are processed. */
+
+// Select the console subsystem
 #pragma comment(linker, "/subsystem:console")
 int main(int argc, const char** argv)
 {
@@ -20,6 +28,9 @@ int main(int argc, const char** argv)
 #else
 #pragma comment(linker, "/subsystem:windows")
 #endif
+/*Tells linker to add libname opengl32.lib to the list of library dependencies
+This is the code version and the same can be achieved by Linker->Input->Additional Dependencies
+in the project properties menu*/
 #pragma comment(lib, "opengl32.lib")
 
 #define WGL_CONTEXT_MAJOR_VERSION_ARB     0x2091
@@ -199,7 +210,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		{
 			glFinish();
 		}
-	}
+	} // End game loop
 	if (gApplication != 0)
 	{
 		std::cout << "Expected application to be null on exit \n";
